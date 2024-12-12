@@ -20,8 +20,6 @@ app.use('/api/users', userRoutes);
 
 // Conexión a la base de datos
 
-connectDB();
-
 // Puerto de servidor
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

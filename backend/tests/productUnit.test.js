@@ -1,28 +1,39 @@
-const Product = require('../models/Product'); // Importar el modelo
+const Product = require('../models/Product');
 
-describe('Modelo de Producto - Método calculateTotalPrice', () => {
-    it('Debería calcular el precio total correctamente', () => {
+describe('Modelo de Producto - Método hasSufficientStock', () => {
+    it('Debería devolver true si el stock es suficiente', () => {
         const product = new Product({
             nombre: 'Producto Prueba',
-            descripcion: 'Descripción de prueba',
+            descripcion: 'Descripción del producto',
             precio: 100,
             stock: 10,
         });
 
-        const totalPrice = product.calculateTotalPrice(5); // 5 unidades
-        console.log("Total calculado: ", totalPrice);
-        expect(totalPrice).toBe(500); // 100 * 5 = 500
+        const result = product.hasSufficientStock(5); // Solicita 5 unidades
+        expect(result).toBe(true); // El stock es suficiente
     });
 
-    it('Debería lanzar un error si la cantidad es 0 o negativa', () => {
+    it('Debería devolver false si el stock no es suficiente', () => {
         const product = new Product({
             nombre: 'Producto Prueba',
-            descripcion: 'Descripción de prueba',
+            descripcion: 'Descripción del producto',
             precio: 100,
             stock: 10,
         });
 
-        expect(() => product.calculateTotalPrice(0)).toThrow('La cantidad debe ser mayor a 0');
-        expect(() => product.calculateTotalPrice(-1)).toThrow('La cantidad debe ser mayor a 0');
+        const result = product.hasSufficientStock(15); // Solicita 15 unidades
+        expect(result).toBe(false); // El stock no es suficiente
+    });
+
+    it('Debería lanzar un error si la cantidad solicitada es 0 o negativa', () => {
+        const product = new Product({
+            nombre: 'Producto Prueba',
+            descripcion: 'Descripción del producto',
+            precio: 100,
+            stock: 10,
+        });
+
+        expect(() => product.hasSufficientStock(0)).toThrow('La cantidad debe ser mayor a 0');
+        expect(() => product.hasSufficientStock(-5)).toThrow('La cantidad debe ser mayor a 0');
     });
 });

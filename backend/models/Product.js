@@ -8,12 +8,12 @@ const productSchema = new mongoose.Schema({
     imagen: { type: String },
 }, { timestamps: true });
 
-// Método de instancia para calcular el precio total
-productSchema.methods.calculateTotalPrice = function (cantidad) {
+productSchema.methods.hasSufficientStock = function (cantidad) {
     if (cantidad <= 0) {
         throw new Error('La cantidad debe ser mayor a 0');
     }
-    return this.precio * cantidad;
+    return this.stock >= cantidad;
 };
+
 
 module.exports = mongoose.model('Product', productSchema);
